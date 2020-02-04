@@ -65,4 +65,20 @@ class UsersController extends Controller
 
         return view('users.followers', $data);
     }
+    
+    // 自分がフォローしているMicropost一覧取得表示処理
+    public function favorites($id)
+    {
+        $user = User::find($id);
+        $favorites = $user->favorites()->paginate(10);
+
+        $data = [
+            'user' => $user,
+            'microposts' => $favorites,
+        ];
+
+        $data += $this->counts($user);
+
+        return view('users.favorites', $data);
+    }
 }
